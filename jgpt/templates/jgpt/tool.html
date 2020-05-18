@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+    <head>
+        <meta HTTP-EQUIV="pragma" CONTENT="no-cache"/>
+        <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate"/>
+        <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT"/>
+        <meta HTTP-EQUIV="expires" CONTENT="0"/>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="renderer" content="webkit"/>
+
+        <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+        <link href="/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"/>
+
+
+
+        <link href="/static/css/plugins/bootstrap-dialog/bootstrap-dialog.css" rel="stylesheet"/>
+        <link href="/static/css/style.css" rel="stylesheet"/>
+        <link href="/static/css/font-awesome.css" rel="stylesheet"/>
+
+        <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+        <script src="/static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+        <script src="/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+        <script src="/static/js/plugins/bootstrap-dialog/bootstrap-dialog.js"></script>
+        <script src="/static/js/work/formatJson.js"></script>
+        <title>辅助功能</title>
+    </head>
+    <body>
+    <div style="text-align: center;">
+        <h4>辅助功能</h4>
+    </div>
+    <div style="margin:10px 5% 0 5%;font-size: 15px;align: center;overflow-y: auto">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <!-- 查询条件 -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">功能</div>
+                <div class="panel-body" style="height:105px">
+                    <div id="detailDiv">
+                        <div class="row" style="text-align: center;margin-top: 15px">
+                            <div  style="text-align:center">
+                                <button class="btn btn-success btn-md" type="button" onclick="tool.syncInterfaceCache()" style="width: 150px" >刷新接口配置缓存
+                                </button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-danger btn-md" type="button" onclick="tool.deleteReceiveRecord()" style="width: 150px" >删除所有接收记录
+                                </button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-success btn-md" type="button" onclick="tool.formJSON()" style="width: 150px" >json格式化
+                                </button>
+
+                                <button class="btn btn-success btn-md" type="button" onclick="tool.upFile()" style="width: 150px" >文件上传
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>
+
+
+<div class="modal fade" id="jsonFormatModal" tabindex="-1" role="dialog" aria-labelledby="jsonFormatLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="width:95%;height:90%">
+        <div class="modal-content" style="height:100%;">
+            <div class="modal-header" style="margin-left: 20px;height:10%">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                    <span color="#337ab7">  &times; </span>
+                </button>
+                <h5 class="modal-title" style="font-weight:bolder;">
+                    json格式化
+                </h5>
+            </div>
+            <div class="modal-body" style="height:80%;margin-top:0;overflow-y: auto">
+                <div class="row" align="right" style="margin-top: 10px">
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <label  for="leftData" id="leftDataLabel">json字符串:</label>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <textarea style="font-weight:bolder"  rows="15" id="leftData" name="leftData" class="form-control"></textarea>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <label  for="rightData" id="rightDataLabel">结果:</label>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <textarea readonly="readonly" style="font-weight:bolder"  rows="15" id="rightData" name="rightData" class="form-control"></textarea>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4"></div>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: center;padding:0;margin-top:0;height:10%">
+                <button class="btn btn-success"  onclick="tool.startFormJSON()">转换</button>
+                <button class="btn btn-warning"  onclick="tool.clearJSON()">清除</button>
+                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="false">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="fileUploadMould" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="width:800px;height:250px">
+        <div class="modal-content" style="height:100%">
+            <div class="modal-header" style="height:20%;margin-left: 20px">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                    &times;
+                </button>
+                <h5 class="modal-title">
+                    导入文件
+                </h5>
+            </div>
+            <div class="modal-body" style="height:80%;">
+                <div class="row" style="margin-top: 10px">
+                    <div class="col-sm-4 col-xs-4 col-lg-4" style="text-align:right">
+                        <label for="file" id="fileLabel"> 文件:</label>
+                    </div>
+                    <div class="col-sm-8 col-xs-8 col-lg-8" style="text-align: left">
+                        <form id="uploadForm" enctype="multipart/form-data" style="width: 100%">
+                            <input style="border: solid 1px;width: 50%" id="file" type="file" name="file"/>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;margin-top: 10px">
+                    <div class="col-sm-4 col-xs-4 col-lg-4" style="text-align:right">
+                        <label for="isFolder" id="isFolderLabel"> 是否为文件夹:</label>
+                    </div>
+                    <div class="col-sm-8 col-xs-8 col-lg-8" style="text-align: left">
+                        <select id="isFolder" style="width:50%;height:25px">
+                            <option value="N">否</option>
+                            <option value="Y">是</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;margin-top: 10px">
+                    <div class="col-sm-4 col-xs-4 col-lg-4" style="text-align:right">
+                        <label for="ftpPath" id="ftpPathLabel"> ftp相对路径:</label>
+                    </div>
+                    <div class="col-sm-8 col-xs-8 col-lg-8" style="text-align: left">
+                        <input id="ftpPath" style="width:50%;height:25px" placeholder="example1/example2"/>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;margin-top: 20px">
+                    <button class="btn btn-info" onclick="tool.uploadFile()">&nbsp;上传</button>&nbsp;&nbsp;
+                    <button class="btn btn-warning" data-dismiss="modal" aria-hidden="false">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/work/common.js?v=20112"></script>
+<script src="/static/js/work/tool.js?v=203222282"></script>

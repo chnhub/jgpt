@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<head>
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache"/>
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate"/>
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT"/>
+    <meta HTTP-EQUIV="expires" CONTENT="0"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="renderer" content="webkit"/>
+
+    <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/static/css/plugins/bootstrap-dialog/bootstrap-dialog.css" rel="stylesheet"/>
+    <link href="/static/css/style.css" rel="stylesheet"/>
+    <link href="/static/css/font-awesome.css" rel="stylesheet"/>
+    <link href="/static/css/plugins/ztree/zTreeStyle.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/plugins/bootstrap-dialog/bootstrap-dialog.js"></script>
+    <script src="/static/js/work/formatJson.js"></script>
+    <script src="/static/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <title>接口配置</title>
+</head>
+<body>
+<div style="margin-top: 10px;font-size: 15px;align: center">
+    <div class="col-lg-3 col-md-5 col-sm-5 col-xs-5">
+        <div class="panel panel-primary">
+            <div class="panel-heading">来源菜单</div>
+            <div class="panel-body" style="width: 100%;height:520px;">
+                <ul id="requestResourceTree" class="ztree"
+                     style="overflow-y: auto;overflow-x: auto;height:100%;width: 100% !important;"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9 col-md-7 col-sm-7 col-xs-7">
+        <div class="panel panel-primary">
+            <div class="panel-heading">响应结果配置</div>
+            <div class="panel-body" style="width: 100%;height:520px;overflow-y: auto">
+                <div id="responseBodyDiv" style="display: none">
+                <div class="row" align="right" style="margin-top: 10px;">
+                    <input id="interfaceId" type="hidden"/>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <label class="control-label" for="interfaceName" id="interfaceNameLabel">接口名称:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-7">
+                        <input style="font-weight:bolder" id="interfaceName" class="form-control" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div class="row" align="right" style="margin-top: 10px;">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <label class="control-label" for="posturl" id="posturlLabel">接口规则:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-7">
+                        <textarea id="posturl" style="font-weight:bolder;width:100%"  rows="2" readonly="readonly"></textarea>
+                    </div>
+                </div>
+                <div class="row" align="right" style="margin-top: 10px;">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <label class="control-label" for="waitTime" id="waitTimeLabel">响应时间:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-7">
+                        <input type="number" value=0 style="font-weight:bolder" id="waitTime" class="form-control" placeholder="响应时间(S)"/>
+                    </div>
+                </div>
+
+                <div class="row" align="right" style="margin-top: 10px">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <label class="control-label" for="responseContent" id="contentLabel">响应数据:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-7" id="response_params" style="font-size: 14px;height: 290px">
+                        <textarea id="responseContent" style="font-weight:bolder;width:100%" rows="13"></textarea>
+                    </div>
+                </div>
+                <div class="row" align="right" style="margin-top: 10px;border: 1px">
+                    <div class="col-md-3 col-sm-3 col-xs-3"></div>
+                    <div class="col-md-7 col-sm-7 col-xs-7" style="text-align:center">
+                        <input type="button" value="临时保存" onclick="responseConfig.save(false)" style="width:80px;"
+                               class="btn btn-danger">
+                        <input type="button" value="保存" onclick="responseConfig.save(true)" style="width:80px;"
+                               class="btn btn-danger">
+                        <input type="button" value="关闭" onclick="responseConfig.clear()" style="width:80px;"
+                               class="btn btn-info">
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+<div class="modal fade" id="menuEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="margin-top:10%">
+    <div class="modal-dialog" style="width:600px;height:280px">
+        <div class="modal-content" style="height:100%">
+            <div class="modal-header" style="height:20%;margin-left: 20px">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">
+                    &times;
+                </button>
+                <h5 class="modal-title">
+                    模块名称
+                </h5>
+            </div>
+            <div class="modal-body" style="height:80%;">
+                <div class="row" style="text-align: center;margin-top: 10px;">
+                    <div class="col-sm-4 col-xs-4 col-lg-4" style="text-align:right">
+                        <label for="menuName" id="menuNameLabel"> 名称:</label>
+                    </div>
+                    <div class="col-sm-8 col-xs-8 col-lg-8" style="text-align: left">
+                        <input id="menuName" style="width: 60%" class="form-control" placeholder="请输入节点名称"/>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;margin-top: 10px">
+                    <div class="col-sm-4 col-xs-4 col-lg-4" style="text-align:right;">
+                        <label for="menuType" id="menuTypeLabel">类型:</label>
+                    </div>
+                    <div class="col-sm-8 col-xs-8 col-lg-8" style="text-align: left">
+                        <select id="menuType" style="width:60%;height:34px">
+                            <option value=1>菜单</option>
+                            <option value=2>接口</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;margin-top: 10px;display: none" id="urlRegexDiv">
+                    <div class="col-sm-4 col-xs-4 col-lg-4" style="text-align:right">
+                        <label for="urlRegex" id="urlRegexLabel"> 接口url规则:</label>
+                    </div>
+                    <div class="col-sm-8 col-xs-8 col-lg-8" style="text-align: left">
+                        <input id="urlRegex" style="width: 60%" class="form-control" placeholder="接口url规则"/>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center;margin-top: 20px">
+                    <button class="btn btn-info" onclick="responseConfig.saveMenuNode()">确定</button>&nbsp;&nbsp;
+                    <button class="btn btn-warning" data-dismiss="modal" aria-hidden="false">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/work/common.js?v=201910301200"></script>
+<script src="/static/js/work/responseConfig.js?v=20191224"></script>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<head>
+
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache"/>
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate"/>
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT"/>
+    <meta HTTP-EQUIV="expires" CONTENT="0"/>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="renderer" content="webkit"/>
+    <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/static/css/style.css" rel="stylesheet"/>
+    <link href="/static/css/font-awesome.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/plugins/crypto/core.js"></script>
+    <script src="/static/js/plugins/crypto/cipher-core.js"></script>
+    <script src="/static/js/plugins/crypto/rollups/tripledes.js"></script>
+    <script src="/static/js/plugins/crypto/mode-ecb.js"></script>
+    <script src="/static/js/plugins/crypto/md5.js"></script>
+    <script src="/static/js/plugins/crypto/enc-base64.js"></script>
+    <script src="/static/js/plugins/crypto/aes.js"></script>
+
+    <title>3des加密</title>
+</head>
+<body>
+    <h4 align="center" margin-top="10px">3des加密</h4>
+    <div style="margin-top: 30px;font-size: 20px">
+        <div class="row" align="right">
+            <div class="col-md-1 col-sm-1 col-xs-1">
+               <label class="control-label" for="password" id="passwordText">密码:</label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <input id ="password" name ="password"  maxlength="24" class="form-control"/>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label class="control-label" >密码样例:</label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" align="left">
+                <div id="testPwd">324529324529324529324529</div>
+                <input type="button" value="复制" onclick="des.onClickCopy()"  class="btn btn-info">
+            </div>
+        </div>
+        <div class="row" align="right" style="margin-top: 10px">
+            <div class="col-md-1 col-sm-1 col-xs-1">
+              <label class="control-label" for="content" id="contentLabel">原文:</label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4">
+              <textarea rows="5" id="content" name="content" class="form-control"></textarea>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <label class="control-label" for="content" id="deContentLabel">密文:</label>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <textarea rows="5" id="deContent" name="deContent" class="form-control"></textarea>
+            </div>
+
+        </div>
+        <div class="row" align="center" style="margin-top: 30px;float: bottom">
+            <input type="button" value="加密" onclick="des.encode()" style="width:200px;margin-right: 10px" class="btn btn-info">
+            <input type="button" value="解密" onclick="des.decode()" style="width:200px;margin-right: 10px" class="btn btn-info">
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    var des = {
+
+        onClickCopy:function(){
+            var inputText = document.getElementById("testPwd");
+            var currentFocus = document.activeElement;
+            inputText.focus();
+            inputText.setSelectionRange(0, inputText.html.length);
+            document.execCommand('copy', true);
+            currentFocus.focus();
+        },
+
+
+        //加密
+        encode:function(){
+            var res =  this.encryptByDESECB($("#content").val(),$("#password").val());
+            $("#deContent").val(res);
+        },
+
+        //解密
+        decode:function(){
+            var res = this.decryptByDES($("#deContent").val(),$("#password").val());
+            $("#content").val(res);
+        },
+
+        // ecb模式
+        encryptByDESECB:function(message,key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var encrypted = CryptoJS.TripleDES.encrypt(message, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            var oldHexStr = CryptoJS.enc.Hex.parse(encrypted.toString());
+            // 将密文转为Base64的字符串
+            return CryptoJS.enc.Base64.stringify(oldHexStr);
+        },
+
+        decryptByDES:function(ciphertext, key) {
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            // direct decrypt ciphertext
+            var decrypted = CryptoJS.TripleDES.decrypt({
+                ciphertext: CryptoJS.enc.Base64.parse(ciphertext)
+            }, keyHex, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        },
+
+        // cbc 模式
+        encryptByDESCBC:function(key,message) {
+            // message 加密数据
+            var keyHex = CryptoJS.enc.Utf8.parse(key);
+            var encrypted = CryptoJS.TripleDES.encrypt(message, keyHex, {
+                iv:CryptoJS.enc.Utf8.parse('01234567'),    // 向量
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7});
+
+            var oldHexStr = CryptoJS.enc.Hex.parse(encrypted.toString());
+
+            // 将密文转为Base64的字符串
+            var base64Str = CryptoJS.enc.Base64.stringify(encrypted.toString());
+            console.log(base64Str.toJSON());
+            return  base64Str;
+        }
+    }
+</script>

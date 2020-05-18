@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<head>
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache"/>
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate"/>
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT"/>
+    <meta HTTP-EQUIV="expires" CONTENT="0"/>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="renderer" content="webkit"/>
+    <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/static/css/style.css" rel="stylesheet"/>
+    <link href="/static/css/font-awesome.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/index.js"></script>
+</head>
+<body style="border: none">
+<div style="width:100%;padding-top:20px">
+
+    <div class="head-container">
+        <div style="width:300px;text-align: right;display:inline-block">
+            <span style="font-size:22px;text-align: center;font-weight:bold">模拟监管</span>
+        </div>
+    </div>
+    <div id="main-container" style="margin-top: 10px">
+        <div class="col-md-2 col-sm-2 col-xs-2">
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div>
+                    <ul class="nav-bar" id="menuNav">
+                        <li>
+                            <a id="menu1" style="text-align: center"
+                               onclick='index.menuClick("/menu/receiveRecord","接收请求",1)' name="tabMenuItem">
+                                <span class="nav-label">接收请求</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a id="menu2" style="text-align: center"
+                               onclick='index.menuClick("/menu/responseConfig","接口配置",2)' name="tabMenuItem">
+                                <span class="nav-label">接口配置</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="menu3" style="text-align: center"
+                               onclick='index.menuClick("/menu/tool","辅助功能",3)' name="tabMenuItem">
+                                <span class="nav-label">辅助功能</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="menu4" style="text-align: center"
+                               onclick='index.menuClick("/menu/des","3DES",4)' name="tabMenuItem">
+                                <span class="nav-label">3DES</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10">
+            <div class="breadcrumb" style="height:50px;padding-top: 5px;">
+                <nav class="page-tabs" style="margin-top:10px">
+                    <div id="tabs" class="page-tabs-content" style="margin-left: 0px;">
+                        <a class="active J_menuTab" id="tab0">首页</a></div>
+                </nav>
+            </div>
+
+            <div id="tabcontent">
+                <div id="index_tabcontent">
+                    <iframe id="iframe-html-content" style="border: none" width="100%"  
+                            frameborder=0 marginwidth="0" marginheight=" 0" scrolling="no" allowtransparency="yes" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

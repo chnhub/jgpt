@@ -1,0 +1,109 @@
+
+h4 {
+    font-size: 25px;
+}
+
+.my-label {
+    font-size: 13px
+}
+
+.control-label {
+    font-size: 14px;
+}
+
+
+.nav-bar li a {
+    font-size: 14px;
+}
+
+.navbar-static-side {
+    background:  #ffffff;
+}
+
+div.breadcrumb{
+    margin-bottom: 0px;
+}
+
+
+.nav-bar > li > a {
+
+    display: block;
+    color: #a7b1c2;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 25px 14px 25px;
+}
+
+.nav-bar{
+    list-style: none;
+}
+
+
+a {
+    cursor: pointer;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+}
+
+li > a.active,
+.page-tabs a.active{
+    background: #2565a9;
+    color: #fff;
+}
+
+
+.page-tabs a {
+    display: block;
+    float: left;
+    border-right: solid 1px #eee;
+    padding: 0 15px;
+}
+
+.page-tabs a i:hover {
+    color: #c00;
+}
+
+.J_menuTab {
+    -webkit-transition: all .3s ease-out 0s;
+    transition: all .3s ease-out 0s;
+    font-size: 16px;
+}
+
+.breadcrumb > .active {
+    color: inherit;
+}
+
+.head-container {
+    height:40px;
+    border-bottom: 3px solid #3577bd;
+}
+
+
+.page-tabs a.active {
+    background: #3577bd;
+    color: #ffffff;
+}
+
+nav.page-tabs .page-tabs-content {
+    font-size: inherit;
+    float: left;
+}
+
+.nav-label {
+    font-size: 15px;
+}
+
+.ibox-title{
+    margin-top: 20px;
+}
+
+.ibox-content{
+    margin-top:50px;
+}
+
+.input readonly{
+    background: #666666;
+}
