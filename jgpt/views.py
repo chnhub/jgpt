@@ -19,13 +19,19 @@ def jgpt_root(request):
 # 设置该页面可以在相同域名页面的 frame 中展示
 # 或者全局设置 X_FRAME_OPTIONS = 'SAMEORIGIN'
 # @xframe_options_sameorigin
-def receiveRecord(request, name):
+def menu(request, name):
     print(f'请求名字为{name}')
-    if name == 'receiveRecord':
-        return render(
-        request,
-        'jgpt/receiveRecord.html',) 
-    else:
-        print(f'无此请求')
+    try:
+        if name:
+            return render(
+                request,
+                f'jgpt/{name}.html',
+            ) 
+        else:
+            print(f'无此请求')
+            return HttpResponse('404 error')
+    except Exception as identifier:
+        print('进入异常')
         return HttpResponse('404 error')
+    
     
